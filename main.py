@@ -45,4 +45,4 @@ for i in range(word_gen_counts):
     starting_seed += 1
         
 ds = np.mean(ds_list)
-print("The diversity score is " + str(ds))
+print("The score is " + str(ds))

@@ -6,6 +6,14 @@ Created on Sun Feb 26 19:17:01 2023
 """
 
 from IImgGenModel import *
+
+
+import sys
+
+sys.path.insert(1, '/Models/dalle')
+from inference_dalle import *
+
+from Models
  
 class DallE(IImgGenModel):
 
