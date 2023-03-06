@@ -253,6 +253,9 @@ class DALLE(Model):
             sample = tf.random.categorical(logits=tf.math.log(probs), num_samples=1)
             # Offset sampled token if it is an image token, since logit space is composed of text and then image tokens
             sample -= num_text_tokens if is_image else 0
+            
+            out = tf.cast(out, tf.int32) 
+            sample = tf.cast(sample, tf.int32) 
             out = tf.concat(values=[out, sample], axis=-1)
 
             if out.shape[1] <= text_sequence_len:

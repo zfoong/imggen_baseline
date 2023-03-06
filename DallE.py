@@ -10,10 +10,8 @@ from IImgGenModel import *
 
 import sys
 
-sys.path.insert(1, '/Models/dalle')
-from inference_dalle import *
-
-from Models
+# sys.path.insert(1, '/Models/dalle')
+# from inference_dalle import *
  
 class DallE(IImgGenModel):
 
