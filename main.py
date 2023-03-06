@@ -25,8 +25,6 @@ def half_ellipse(x):
     y[np.where(y < 0)] = 0
     return np.sqrt(y)
 
-# \sqrt{-4(x-0.5)^{2}+1} = y
-
 # initiate global param
 word_gen_counts = 10 # N
 gen_count = 10 # M
@@ -42,21 +40,18 @@ model = DallE()
 for i in range(word_gen_counts):
     # generate random word
     wg = wordGen('simple', starting_seed)
-    # caption = wg.get_word(word_counts)
-    caption = ['a','a','a','a','a']
+    caption = wg.get_word(word_counts)
     
     for j in range(gen_count):
         # models inference
         out = model.generate(str(caption))
         
         # get word prob with CLIP
-        prob_vec = np.array([0.1,0.2,0.3,0.4,0.1])#clip.input(out)
-        # prob_vec = np.array([0,0.0,0.0,0.0,1])#clip.input(out)
-        # prob_vec = np.array([0.2,0.2,0.2,0.2,0.2])#clip.input(out)
+        # TODO: mao
+        prob_vec = np.array([0.1,0.2,0.3,0.4,0.1])#clip.input(out) 
         
         # evaluate 
         s = RIS(prob_vec)
-        print(s)
         result_list.append(s)
         
     starting_seed += 1
