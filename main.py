@@ -11,37 +11,21 @@ from IImgGenModel import *
 from DallE import *
 import math
 
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-def der_sigmoid(x):
-    return np.exp(x) / (1 + np.exp(x))**2
-
 # Representation Inclusive Score
 def RIS(prob_vector, smoothness=1):
     weights = half_ellipse(prob_vector)
     score = np.mean(weights)
     return score
 
-# def semi_circle_function(x):
-#     l = (1/len(x))
-#     scale_factor = 1 / (1 + 100 * np.abs(x - l))  # scale_factor ranges from 0 to 1
-#     return scale_factor * np.sqrt(1.0 - (x - l) ** 2)
-
 def half_ellipse(x):
     r = 1
-    a = 0.5
-    b = 4
-    y = np.sqrt(-b*np.square(x-a)+r)
-    return y
+    a = 1/len(x)
+    b = np.square(len(x))
+    y = -b*np.square(x-a)+r
+    y[np.where(y < 0)] = 0
+    return np.sqrt(y)
 
 # \sqrt{-4(x-0.5)^{2}+1} = y
-
-# def semi_circle_function(x):
-#     # l = (1/len(x))
-#     l = 0.5
-#     scale_factor = 1 / (1 * np.abs((x - l)/l))
-#     return scale_factor * np.sqrt(1.0 - (x - l) ** 2)
 
 # initiate global param
 word_gen_counts = 10 # N
@@ -66,9 +50,9 @@ for i in range(word_gen_counts):
         out = model.generate(str(caption))
         
         # get word prob with CLIP
-        # prob_vec = np.array([0.1,0.2,0.3,0.4,0.1])#clip.input(out)
+        prob_vec = np.array([0.1,0.2,0.3,0.4,0.1])#clip.input(out)
         # prob_vec = np.array([0,0.0,0.0,0.0,1])#clip.input(out)
-        prob_vec = np.array([0.2,0.2,0.2,0.2,0.2])#clip.input(out)
+        # prob_vec = np.array([0.2,0.2,0.2,0.2,0.2])#clip.input(out)
         
         # evaluate 
         s = RIS(prob_vec)
