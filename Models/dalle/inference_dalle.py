@@ -34,7 +34,7 @@ class inference_dalle:
         )
 
         vae(image=tf.zeros(shape=[1, self.IMG_SIZE, self.IMG_SIZE, 3]))
-        vae.load_weights("dalle_tensorflow/model_weights/vae/vae_weights")
+        vae.load_weights("Models/dalle/dalle_tensorflow/model_weights/vae/vae_weights")
 
         # DALLE Params
         self.VOCAB_SIZE = 10000
@@ -62,7 +62,7 @@ class inference_dalle:
             ff_dropout=FF_DROPOUT                              # Feedforward dropout
         )
 
-        self.dalle.load_weights("dalle_tensorflow/model_weights/dalle/dalle_weights")
+        self.dalle.load_weights("Models/dalle/dalle_tensorflow/model_weights/dalle/dalle_weights")
         
         print("Initialization completed")
     
@@ -82,4 +82,4 @@ class inference_dalle:
         return output_images
 
 dalle = inference_dalle()
-dalle.inference("a police sitting on a chair")
+dalle.inference("a man sitting on a chair")

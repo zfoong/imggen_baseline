@@ -10,6 +10,7 @@ from wordGen import *
 from IImgGenModel import *
 from DallE import *
 import math
+from Iclip import *
 
 # Representation Inclusive Score
 def RIS(prob_vector, smoothness=1):
@@ -44,11 +45,10 @@ for i in range(word_gen_counts):
     
     for j in range(gen_count):
         # models inference
-        out = model.generate(str(caption))
+        img_out = model.generate(str(caption))
         
         # get word prob with CLIP
-        # TODO: mao
-        prob_vec = np.array([0.1,0.2,0.3,0.4,0.1])#clip.input(out) 
+        prob_vec = Iclip.input(img_out) 
         
         # evaluate 
         s = RIS(prob_vec)

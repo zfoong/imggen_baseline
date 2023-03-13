@@ -23,4 +23,4 @@ class DallE(IImgGenModel):
         return output
     
 dalle = DallE()
-dalle.generate("a police sitting on a chair")
+dalle.generate("a man sitting on a chair")
