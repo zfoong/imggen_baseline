@@ -25,6 +25,8 @@ from functools import partial
 class DallE_mini(IImgGenModel):
 
     def __init__(self):
+        
+        self.name = 'dalle mini'
         # Model references
         
         # dalle-mega

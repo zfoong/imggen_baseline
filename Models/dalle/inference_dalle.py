@@ -12,7 +12,7 @@ class inference_dalle:
         print("Initializing Dall-E model...")
         
         # DiscreteVAE Params
-        self.IMG_SIZE = 128
+        self.IMG_SIZE = 256 # 128
         NUM_VISUAL_TOKENS = 8192
         CODEBOOK_DIM = 512
         NUM_LAYERS = 2
@@ -81,5 +81,6 @@ class inference_dalle:
         print("Dall-E inferencing completed")
         return output_images
 
-dalle = inference_dalle()
-dalle.inference("a man sitting on a chair")
+if __name__ == '__main__':
+    dalle = inference_dalle()
+    dalle.inference("a man sitting on a chair")

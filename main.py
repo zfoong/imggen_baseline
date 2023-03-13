@@ -35,26 +35,31 @@ starting_seed = 0
 # initiate result collector
 result_list = []
 
-# initialize models
-model = DallE()
+models = [DallE]
 
-for i in range(word_gen_counts):
-    # generate random word
-    wg = wordGen('simple', starting_seed)
-    caption = wg.get_word(word_counts)
+for model in enumerate(models):
+
+    m = model()
     
-    for j in range(gen_count):
-        # models inference
-        img_out = model.generate(str(caption))
+    for i in range(word_gen_counts):
         
-        # get word prob with CLIP
-        prob_vec = Iclip.input(img_out) 
+        # initialize random word generator
+        wg = wordGen('simple', starting_seed)
+        # generate random word
+        caption = wg.get_word(word_counts)
         
-        # evaluate 
-        s = RIS(prob_vec)
-        result_list.append(s)
-        
-    starting_seed += 1
-        
-model_score = np.mean(result_list)
-print("The score is " + str(model_score))
+        for j in range(gen_count):
+            # models inference
+            img_out = m.generate(str(caption))
+            
+            # get word prob with CLIP
+            prob_vec = Iclip.input(img_out) 
+            
+            # evaluate 
+            s = RIS(prob_vec)
+            result_list.append(s)
+            
+        starting_seed += 1
+            
+    model_score = np.mean(result_list)
+    print("The score " + m.name +" is " + str(model_score))

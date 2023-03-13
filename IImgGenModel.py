@@ -11,6 +11,7 @@ class IImgGenModel(ABC):
     
     @abstractmethod
     def __init__(self):
+        self.name = None
         pass    
     
     @abstractmethod

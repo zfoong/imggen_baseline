@@ -16,11 +16,13 @@ from inference_dalle import *
 class DallE(IImgGenModel):
 
     def __init__(self):
+        self.name = 'dalle'
         self.dalle = inference_dalle()
 
     def generate(self, caption):
         output = self.dalle.inference(caption)
         return output
     
-dalle = DallE()
-dalle.generate("a man sitting on a chair")
+if __init__ == '__main__':
+    dalle = DallE()
+    dalle.generate("a man sitting on a chair")
