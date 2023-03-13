@@ -10,13 +10,17 @@ from IImgGenModel import *
 
 import sys
 
-# sys.path.insert(1, '/Models/dalle')
-# from inference_dalle import *
+sys.path.insert(1, 'Models/dalle')
+from inference_dalle import *
  
 class DallE(IImgGenModel):
 
     def __init__(self):
-        pass    
+        self.dalle = inference_dalle()
 
     def generate(self, caption):
-        pass
+        output = self.dalle.inference(caption)
+        return output
+    
+dalle = DallE()
+dalle.generate("a police sitting on a chair")
