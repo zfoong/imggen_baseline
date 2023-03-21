@@ -17,7 +17,6 @@ from PIL import Image
 import torch
 import torchvision.transforms as transforms
 from tqdm import tqdm
-
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
 
 from Iclip import *
@@ -119,8 +118,10 @@ for id_, model in enumerate(models):
             
     score_mean = np.mean(result_list)
     score_std = np.std(result_list)
+
     print(f'The score for {m.name} is {score_mean:.3f}±{score_std:.3f}')
     
     print("Evaluating " + str(m.name) + " completed")
 
 print("Evaluating RIS completed")
+
