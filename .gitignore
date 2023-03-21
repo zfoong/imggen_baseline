@@ -1,1 +1,4 @@
 Models/dalle/dalle_tensorflow/model_weights/
+word_list/
+image_output/
+pretrained/
