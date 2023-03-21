@@ -12,7 +12,7 @@ class inference_dalle:
         print("Initializing Dall-E model...")
         
         # DiscreteVAE Params
-        self.IMG_SIZE = 256 # 128
+        self.IMG_SIZE = 128
         NUM_VISUAL_TOKENS = 8192
         CODEBOOK_DIM = 512
         NUM_LAYERS = 2

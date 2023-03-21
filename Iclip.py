@@ -25,10 +25,10 @@ class Iclip():
             image_features = self.model.encode_image(image)
             text_features = self.model.encode_text(text)
             
-            logits_per_image, logits_per_text = model(image, text)
+            logits_per_image, logits_per_text = self.model(image, text)
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
         
-        print("Label probs:", probs)
+        # print("Label probs:", probs)
         
         return probs
 

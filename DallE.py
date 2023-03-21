@@ -23,6 +23,6 @@ class DallE(IImgGenModel):
         output = self.dalle.inference(caption)
         return output
     
-if __init__ == '__main__':
+if __name__ == '__main__':
     dalle = DallE()
     dalle.generate("a man sitting on a chair")

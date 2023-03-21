@@ -1,1 +1,3 @@
 Models/dalle/dalle_tensorflow/model_weights/
+image_output/
+pretrained/
