@@ -33,7 +33,7 @@ class DallE_mini(IImgGenModel):
         grid_size=1,
         is_seamless=False,
         temperature=1,
-        top_k=256,
+        top_k=128, # 256
         supercondition_factor=32,
         is_verbose=False
         )
