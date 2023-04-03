@@ -10,6 +10,7 @@ from wordGen import *
 from IImgGenModel import *
 # from DallE import *
 from DallE_mini import *
+from attnGAN import *
 import math
 import os
 import json
@@ -22,9 +23,12 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
 from Iclip import *
 
 # Representation Inclusive Score
-def RIS(prob_vector, smoothness=1):
+def RIS(prob_vector):
     weights = half_ellipse(prob_vector)
+    # print(prob_vector)
     score = np.mean(weights)
+    # print(score)
+    # print("--------------")
     return score
 
 def half_ellipse(x):
@@ -45,16 +49,17 @@ word_counts = 5 # K, Length of each word list
 result_list = []
 
 # model list
-models = [DallE_mini]
+# models = [attnGAN]
+models = [DallE_mini, attnGAN]
 
 # Image path
 image_path = "image_output"
 
 # read words from 
-word_data = None
-word_list_path = "word_list/words_test.txt"
+prompts = None
+word_list_path = "word_list/prompts_test.txt"
 with open(word_list_path, 'r') as file:
-    word_data = json.load(file)
+    prompts = json.load(file)
 
 print("Generate images based on captions")
 
@@ -62,13 +67,13 @@ print("Generate images based on captions")
 for id_, model in enumerate(models):
     
     # clear cache
-    # torch.cuda.empty_cache()
+    torch.cuda.empty_cache()
     m = model()
     m.init_model()
     
     print("Performing inferencing for " + str(m.name) + "...")
     
-    for word_list_id, word_list in enumerate(tqdm(word_data)):
+    for word_list_id, word_list in enumerate(tqdm(prompts)):
         
         for j in range(gen_count):
             
@@ -78,7 +83,7 @@ for id_, model in enumerate(models):
             
             img_path = os.path.join(img_folder_path, "img_"+str(j)+".jpg")
             # models inference
-            img_out = m.generate(' '.join(word_list))
+            img_out = m.generate(word_list)
             
             # In case image output is not a PIL object, convert the tensor to a PIL image
             # to_pil = transforms.ToPILImage()
@@ -91,8 +96,12 @@ for id_, model in enumerate(models):
     
 print("Images generation based on captions completed")
 
-
 print("Evaluating RIS")
+
+word_data = None
+word_list_path = "word_list/nouns_test.txt"
+with open(word_list_path, 'r') as file:
+    word_data = json.load(file)
 
 torch.cuda.empty_cache()
 clip = Iclip()
@@ -104,6 +113,8 @@ for id_, model in enumerate(models):
     
     for word_list_id, word_list in enumerate(tqdm(word_data)):
         
+        # print("word list: " + str(word_list))
+        
         for j in range(gen_count):
             # models inference
             img_path = os.path.join(image_path, m.name, str(word_list_id), "img_"+str(j)+".jpg") 
@@ -111,7 +122,7 @@ for id_, model in enumerate(models):
             
             # get word prob with CLIP
             prob_vec = clip.input(img_path, word_list) 
-            
+            prob_vec = prob_vec[0][:-1]
             # evaluate 
             s = RIS(prob_vec)
             result_list.append(s)

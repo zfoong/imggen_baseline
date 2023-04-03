@@ -19,7 +19,9 @@ class Iclip():
     
     def input(self, I_path, T):
         image = self.preprocess(Image.open(I_path)).unsqueeze(0).to(self.device)
-        text = clip.tokenize(T).to(self.device)
+        word_list = T.copy()
+        word_list.append("")
+        text = clip.tokenize(word_list).to(self.device)
         
         with torch.no_grad():
             image_features = self.model.encode_image(image)
@@ -28,6 +30,7 @@ class Iclip():
             logits_per_image, logits_per_text = self.model(image, text)
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
         
+        # print("T:", T)
         # print("Label probs:", probs)
         
         return probs
