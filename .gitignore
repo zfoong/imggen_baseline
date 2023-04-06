@@ -5,3 +5,6 @@ pretrained/
 Models/attnGAN/DAMSMencoders
 Models/attnGAN/data
 Models/attnGAN/models
+*pyc
+Models/BigGAN
+prob_output

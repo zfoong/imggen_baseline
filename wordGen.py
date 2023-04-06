@@ -117,22 +117,23 @@ if __name__ == "__main__":
     nltk.download('omw-1.4')
     
     wg = wordGen('simple')
-    word_gen_counts = 10 # N
+    word_gen_counts = 10000 # N
+    K = 8
     prompt_lists = []
     noun_lists = []
     
     for i in range(word_gen_counts):
-        prompt_list, noun_list = wg.get_word(5)
+        prompt_list, noun_list = wg.get_word(K)
         prompt_lists.append(prompt_list)
         noun_lists.append(noun_list)
         
     print(prompt_lists)
     
-    file_path = os.path.join(folder_name, 'prompts_test.txt')
+    file_path = os.path.join(folder_name, 'prompts_'+str(K)+'.txt')
     with open(file_path, 'w') as file:
         json.dump(prompt_lists, file)
         
-    file_path = os.path.join(folder_name, 'nouns_test.txt')
+    file_path = os.path.join(folder_name, 'nouns_'+str(K)+'.txt')
     with open(file_path, 'w') as file:
         json.dump(noun_lists, file)
         
