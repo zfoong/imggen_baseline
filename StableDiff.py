@@ -10,28 +10,26 @@ from IImgGenModel import *
 import sys
 import os
 
-dir_path = "./Models/attnGAN/"
-sys.path.append(dir_path)
-
-from attnGAN_model import *
+# dir_path = "./Models/attnGAN/"
+# sys.path.append(dir_path)
  
-class attnGAN(IImgGenModel):
+class StableDiff(IImgGenModel):
 
     def __init__(self):
         
-        self.name = 'attnGAN'
+        self.name = 'StableDiff'
         # Model references
         self.model = None
         
     def init_model(self, GPU_ID=0, worker=1):
-        self.model = attnGAN_model(GPU_ID, worker)
+        self.model = None # initialize your model here
 
     def generate(self, caption):
-        image = self.model.inference(caption)
+        image = self.model.inference(caption) # Example of inferencing your image
         return image
         
 if __name__ == "__main__":
-    model = attnGAN()
+    model = StableDiff()
     model.init_model()
     image = model.generate("a man sitting on a chair")
     # plt.imshow(image)

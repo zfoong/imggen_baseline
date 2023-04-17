@@ -17,7 +17,8 @@ class DallE_mini(IImgGenModel):
         # Model references
         self.model = None
         
-    def init_model(self):
+    def init_model(self, GPU_ID=0, worker=1):
+        # does not support selection of GPU ID
         self.model = MinDalle(
             models_root='./pretrained',
             dtype=torch.float32,
@@ -42,5 +43,6 @@ class DallE_mini(IImgGenModel):
 
 if __name__ == "__main__":
     model = DallE_mini()
+    model.init_model()
     image = model.generate("a man sitting on a chair")
     # plt.imshow(image)

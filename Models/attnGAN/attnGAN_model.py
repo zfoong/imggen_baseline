@@ -62,7 +62,7 @@ def gen_example_from_text(input_text, output_dir, wordtoix, algo):
 
 class attnGAN_model():
     
-    def __init__(self):
+    def __init__(self, GPU_ID=0, worker=1):
         # dir_path = (os.path.abspath(os.path.join(os.path.dirname(__file__), './.')))
         # sys.path.append(dir_path)
         
@@ -71,7 +71,9 @@ class attnGAN_model():
 
         cfg_from_file(cfg_file)
     
-        cfg.GPU_ID = 0
+        cfg.GPU_ID = GPU_ID
+        cfg.WORKERS = worker
+        
         cfg.DATA_DIR = 'data/coco'
         cfg.DATA_DIR = os.path.join(os.path.dirname(__file__), cfg.DATA_DIR)
         

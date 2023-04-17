@@ -17,9 +17,10 @@ from PIL import Image
 import torch
 import torchvision.transforms as transforms
 from tqdm import tqdm
+import argparse
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:512'
 
-def img_gen(gen_count, word_counts, models, image_path, word_list_path):
+def img_gen(gen_count, word_counts, models, image_path, word_list_path, GPU_ID=0, worker=1):
     
     # read words from S
     prompts = None
@@ -34,7 +35,7 @@ def img_gen(gen_count, word_counts, models, image_path, word_list_path):
         # clear cache
         torch.cuda.empty_cache()
         m = model()
-        m.init_model()
+        m.init_model(GPU_ID, worker)
         
         print("Performing inferencing for " + str(m.name) + "...")
         
@@ -64,13 +65,35 @@ def img_gen(gen_count, word_counts, models, image_path, word_list_path):
 if __name__ == "__main__":
     
     # initiate global param
-    gen_count = 3 # M, Numbers of image output for each word list
-    word_counts = 5 # K, Length of each word list
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--gen_count', type=int, default=3, help='M, Numbers of image output for each word list')
+    parser.add_argument('--word_counts', type=int, default=5, help='K, Length of each word list')
+    parser.add_argument('--GPU_ID', type=int, default=0, help='GPU ID to use')
+    parser.add_argument('--model', type=str, default='', help='Model to use (DallE_mini or attnGAN)')
+    parser.add_argument('--worker', type=int, default=1, help='number of worker')
 
-    models = [DallE_mini, attnGAN]
+    # Parse command-line arguments
+    args = parser.parse_args()
+
+    # Assign arguments to variables
+    gen_count = args.gen_count
+    word_counts = args.word_counts
+    GPU_ID = args.GPU_ID
+    model = args.model
+    worker = args.worker
+
+    models = []
+    # models = [DallE_mini, attnGAN]
+    
+    if model == "DallE_mini":
+        models.append(DallE_mini)
+    elif model == "attnGAN":
+        models.append(attnGAN)
+    else:
+        raise Exception("model name not found") 
     
     # Image path
     image_path = "image_output"
     prompt_list_path = "word_list/prompts_test.txt"
 
-    img_gen(gen_count, word_counts, models, image_path, prompt_list_path)
+    img_gen(gen_count, word_counts, models, image_path, prompt_list_path, GPU_ID, worker)
