@@ -28,10 +28,10 @@ class DallE_mini(IImgGenModel):
         )
 
     def generate(self, caption):
-        image = self.model.generate_image(
+        image = self.model.generate_images(
         text=caption,
         seed=-1,
-        grid_size=1,
+        grid_size=4,
         is_seamless=False,
         temperature=1,
         top_k=128, # 256

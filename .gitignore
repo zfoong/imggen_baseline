@@ -6,5 +6,5 @@ Models/attnGAN/DAMSMencoders
 Models/attnGAN/data
 Models/attnGAN/models
 *pyc
-Models/BigGAN
+Models/
 prob_output
